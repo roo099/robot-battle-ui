@@ -1,0 +1,20 @@
+<div class="modal-header">
+	<h3 class="modal-title">Select Action</h3>
+	<button type="button" class="btn-close" aria-label="Close" (click)="modalRef.close()"></button>
+</div>
+<div class="modal-body">
+	<div
+		class="col battle-player"
+		[ngClass]="{
+			'purple-room': team.roomColor == 'purple',
+			'orange-room': team.roomColor == 'orange',
+			'green-room': team.roomColor == 'green'
+		}"
+	>
+		{{ team.teamName }}
+	</div>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn btn-primary" (click)="winner()">Winner</button>
+	<button type="button" class="btn btn-secondary" (click)="remove()">Remove</button>
+</div>

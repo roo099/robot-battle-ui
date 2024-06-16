@@ -1,0 +1,58 @@
+<div *ngIf="!countdownStarted">
+	<div class="card h-100 header-card">
+		<header class="text-center">
+			<img src="assets/boxing_robot_r.png" alt="Image 1" class="align-image" />
+			<div>Robot Rumble</div>
+			<img src="assets/boxing_robot_l.png" alt="Image 1" class="align-image" />
+		</header>
+	</div>
+	<div class="d-flex align-items-start bg-body-tertiary mb-3 battle-board">
+		<div class="col battle-matches" *ngFor="let battle of competitions">
+			<div class="card h-100">
+				<div class="card-header bg-transparent text-center">
+					<img src="assets/{{ battle.name }}.png" alt="Icon" class="icon" />
+					<h2>{{ battle.displayName }}</h2>
+				</div>
+				<div class="card-body">
+					<div class="d-flex align-items-start" *ngFor="let round of battle.rounds; let x = index">
+						<div
+							class="col battle-player"
+							[ngClass]="{
+								'purple-room': team.roomColor == 'purple',
+								'orange-room': team.roomColor == 'orange',
+								'green-room': team.roomColor == 'green'
+							}"
+							*ngFor="let team of round.teams; let y = index"
+							(click)="pickWinner(team)"
+						>
+							{{ team.teamName }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="text-center my-4">
+		<button
+			type="button"
+			class="btn btn-primary"
+			mdbRipple
+			(click)="startCountdown()"
+			[disabled]="countdownStarted && !countdownCompleted"
+		>
+			Calculate the final winner...
+		</button>
+	</div>
+</div>
+<div *ngIf="countdownStarted" class="countdown d-flex align-items-center justify-content-center" style="height: 100%">
+	<div class="text-center my-4">
+		<div *ngIf="countdownStarted && !countdownCompleted" class="countdown-timer">
+			<h1 class="display-1">{{ countdown }}</h1>
+		</div>
+
+		<div class="countdown-finished" *ngIf="countdownCompleted" [@flyInDownEnter]>
+			<img src="assets/surprised_robot.png" class="img-fluid" alt="..." />
+			<h1 class="display-1">It's not about the robots ...</h1>
+		</div>
+	</div>
+</div>

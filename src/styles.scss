@@ -1,0 +1,146 @@
+/* You can add global styles to this file, and also import other style files */
+@import '@fortawesome/fontawesome-free/css/all.css';
+@import 'mdb-angular-ui-kit/assets/scss/mdb.scss';
+
+$my-theme-primary: #9c27b0; // theme primary color, change this value to customize theme
+$my-theme-secondary: #69f0ae; // theme secondary color, change this value to customize theme
+
+$my-dark-theme: mdb-dark-theme(
+	$my-theme-primary,
+	$my-theme-secondary
+); // create the new dark theme using primary and secondary colors
+
+// include theme styles
+@include mdb-theme($my-dark-theme);
+
+html,
+body {
+	height: 100%;
+}
+
+app-robot-knockout {
+	.header-card {
+		margin: 10px;
+		header {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-bottom: 5px;
+			img {
+				max-height: 100px;
+				margin: 0 15px;
+			}
+			div {
+				margin-top: 5px;
+				font-size: 3rem;
+				color: $my-theme-secondary;
+			}
+		}
+	}
+	.battle-board {
+		.battle-card {
+			margin: 10px;
+		}
+
+		.battle-matches {
+			margin: 10px;
+			.card-header {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				color: $my-theme-secondary;
+				border-bottom-color: $my-theme-secondary;
+				i {
+					margin-right: 5px;
+				}
+				.icon {
+					max-width: 75px;
+					max-height: 50px;
+					margin-right: 8px;
+				}
+			}
+			.card-body {
+				padding: 5px;
+				.battle-player {
+					margin: 2px;
+					border: 1px solid;
+					border-radius: 5px;
+					text-align: center;
+					font-size: 2.5rem;
+				}
+			}
+
+			// .text-with-icon {
+			// 	display: flex;
+			// 	align-items: center;
+			// }
+
+			// .icon {
+			// 	width: 24px; /* Adjust the size as needed */
+			// 	height: 24px; /* Adjust the size as needed */
+			// 	margin-right: 8px; /* Space between the icon and text */
+			// }
+		}
+
+		.orange-room {
+			background-color: #ffcc80;
+			border-color: #e65100 !important;
+			color: #e65100;
+		}
+		.purple-room {
+			background-color: #caa2fb;
+			border-color: #6f0ee8 !important;
+			color: #6f0ee8;
+		}
+		.green-room {
+			background-color: #d6f0e0;
+			border-color: #0d6832 !important;
+			color: #0d6832;
+		}
+	}
+
+	.countdown {
+		font-size: 48px;
+		text-align: center;
+		.countdown-finished {
+			img {
+				max-height: 250px !important;
+			}
+			h1 {
+				color: $my-theme-secondary;
+				font-weight: bold;
+			}
+		}
+	}
+}
+
+app-confim-modal {
+	.modal-header {
+		h3 {
+			color: $my-theme-secondary;
+		}
+	}
+	.battle-player {
+		margin: 2px;
+		border: 1px solid;
+		border-radius: 5px;
+		text-align: center;
+		font-size: 2.5rem;
+	}
+
+	.orange-room {
+		background-color: #ffcc80;
+		border-color: #e65100 !important;
+		color: #e65100;
+	}
+	.purple-room {
+		background-color: #caa2fb;
+		border-color: #6f0ee8 !important;
+		color: #6f0ee8;
+	}
+	.green-room {
+		background-color: #d6f0e0;
+		border-color: #0d6832 !important;
+		color: #0d6832;
+	}
+}

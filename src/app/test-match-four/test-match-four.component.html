@@ -1,0 +1,20 @@
+<h1>MATCH</h1>
+<div class="tournament-container">
+	<div class="tournament-headers">
+		<h3 *ngFor="let bracket of tournament">{{ bracket.name }}</h3>
+	</div>
+
+	<!-- <button class="btn btn-primary" (click)="bracketGenerator()">Generate</button> -->
+	<div class="tournament-brackets">
+		<ul class="bracket {{ bracket.class }}" *ngFor="let bracket of tournament; let x = index">
+			<li
+				class="team-item"
+				*ngFor="let player of bracket.placement; let i = index"
+				(click)="pickWinner(player, x, i)"
+			>
+				<h5 class="player-name">{{ player['name'] || '--' }}</h5>
+				<h6 class="player-club">{{ player['club'] || '--' }}</h6>
+			</li>
+		</ul>
+	</div>
+</div>
