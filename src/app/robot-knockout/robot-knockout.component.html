@@ -43,6 +43,12 @@
 			Calculate the final winner...
 		</button>
 	</div>
+
+	<div>
+		<button type="button" class="btn btn-primary" mdbRipple (click)="toggleUpdates()">
+			{{ isUpdating ? 'Stop Updates' : 'Start Updates' }}
+		</button>
+	</div>
 </div>
 <div *ngIf="countdownStarted" class="countdown d-flex align-items-center justify-content-center" style="height: 100%">
 	<div class="text-center my-4">

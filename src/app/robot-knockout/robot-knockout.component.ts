@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription, interval } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 import { CompetitionService } from '../services/competition.service';
 import { flyInDownEnterAnimation } from 'mdb-angular-ui-kit/animations';
 
@@ -15,11 +18,19 @@ export class RobotKnockoutComponent {
 	modalRef: MdbModalRef<ConfimModalComponent> | null = null;
 	competitions: any[] = [];
 
-	constructor(private modalService: MdbModalService, private competitionService: CompetitionService) {}
+	constructor(
+		private route: ActivatedRoute,
+		private modalService: MdbModalService,
+		private competitionService: CompetitionService
+	) {}
 
 	countdown: number = 5;
 	countdownStarted: boolean = false;
 	countdownCompleted: boolean = false;
+
+	private updateSubscription: Subscription | null = null;
+	public isUpdating = false;
+	public competitionData: any;
 
 	startCountdown() {
 		this.countdownStarted = true;
@@ -81,7 +92,43 @@ export class RobotKnockoutComponent {
 		}
 	}
 
+	toggleUpdates(): void {
+		if (this.isUpdating) {
+			this.stopUpdates();
+		} else {
+			this.startUpdates();
+		}
+	}
+
+	startUpdates(): void {
+		this.isUpdating = true;
+		this.updateSubscription = interval(5000)
+			.pipe(switchMap(() => this.competitionService.getCompetitions()))
+			.subscribe(
+				data => (this.competitions = data),
+				error => console.error('Error fetching competition data', error)
+			);
+	}
+
+	stopUpdates(): void {
+		if (this.updateSubscription) {
+			this.updateSubscription.unsubscribe();
+			this.updateSubscription = null;
+		}
+		this.isUpdating = false;
+	}
+
 	ngOnInit(): void {
 		this.getCompetition();
+		this.route.paramMap.subscribe(params => {
+			const autoStart = params.get('autoStart');
+			if (autoStart === 'refresh') {
+				this.startUpdates();
+			}
+		});
+	}
+
+	ngOnDestroy(): void {
+		this.stopUpdates();
 	}
 }

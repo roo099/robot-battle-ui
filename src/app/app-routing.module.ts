@@ -4,7 +4,9 @@ import { ManageCompetitorsComponent } from './manage-competitors/manage-competit
 import { RobotKnockoutComponent } from './robot-knockout/robot-knockout.component';
 
 const routes: Routes = [
-	{ path: '', component: RobotKnockoutComponent },
+	{ path: '', redirectTo: 'competition', pathMatch: 'full' },
+	{ path: 'competition', component: RobotKnockoutComponent },
+	{ path: 'competition/:autoStart', component: RobotKnockoutComponent },
 	{ path: 'manage', component: ManageCompetitorsComponent },
 ];
 
