@@ -30,24 +30,11 @@ export class ManageCompetitorsComponent {
 		);
 	}
 
-	// createRowFormGroup(row: any): FormGroup {
-	// 	return this.fb.group({
-	// 		id: [row.id],
-	// 		teamName: [row.teamName],
-	// 		roomColor: [row.roomColor],
-	// 	});
-	// }
-
-	// get rowsFormArray(): FormArray {
-	// 	return this.form.get('competitions') as FormArray;
-	// }
-
 	initializeForms(competitions: any) {
 		for (const comp of competitions) {
 			this.competitionForms[comp.name] = this.fb.group({
 				rows: this.fb.array(comp.rounds[0].teams.map((row: any) => this.createRowFormGroup(row))),
 			});
-			// console.log(this.competitionForms);
 		}
 	}
 
@@ -63,21 +50,44 @@ export class ManageCompetitorsComponent {
 		const formGroup = this.competitionForms[competition];
 		if (!formGroup) {
 			console.error(`FormGroup for competition ${competition} not found`);
-			return this.fb.array([]); // return an empty FormArray to avoid further errors
+			return this.fb.array([]);
 		}
 		return formGroup.get('rows') as FormArray;
 	}
 
-	addRow(competition: string) {
-		this.getRowsFormArray(competition).push(this.createRowFormGroup({ id: null, teamName: '', roomColor: '' }));
+	addRow(competition: any) {
+		const roundId = `${competition.id}_r-1`;
+		const teamSpot = (this.getRowsFormArray(competition.name).length + 1).toString().padStart(2, '0');
+		const newId = `${competition.id}_r-1_t-${teamSpot}`;
+
+		this.competitionService.createTeam(newId, '--', 'default', roundId).subscribe(
+			response => {
+				console.log('Team created:', response);
+				this.getRowsFormArray(competition.name).push(
+					this.createRowFormGroup({ id: newId, teamName: '--', roomColor: 'default' })
+				);
+			},
+			error => {
+				console.error('Team creation failed:', error);
+			}
+		);
 	}
 
 	removeRow(competition: string, index: number) {
-		this.getRowsFormArray(competition).removeAt(index);
+		const lastRow = this.getRowsFormArray(competition).at(index);
+
+		this.competitionService.deleteTeam(lastRow.value.id).subscribe(
+			response => {
+				console.log('Team deleted successful:', response);
+				this.getRowsFormArray(competition).removeAt(index);
+			},
+			error => {
+				console.error('Team deletion failed:', error);
+			}
+		);
 	}
 
-	onSubmit(competition: string) {
-		console.log(this.competitionForms[competition].value.rows);
+	updateTeams(competition: string) {
 		this.competitionService.updateTeams(this.competitionForms[competition].value.rows).subscribe(
 			response => {
 				console.log('Teams update successful:', response);

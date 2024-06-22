@@ -20,7 +20,19 @@ export class CompetitionService {
 	}
 
 	updateTeams(teams: any): Observable<any> {
-		console.log(teams);
 		return this.http.put<any>(`${this.baseUrl}/teams`, teams);
+	}
+
+	createTeam(id: string, teamName: string, roomColor: string, roundId: string): Observable<any> {
+		return this.http.post<any>(`${this.baseUrl}/team`, {
+			id: id,
+			teamName: teamName,
+			roomColor: roomColor,
+			RoundId: roundId,
+		});
+	}
+
+	deleteTeam(id: string): Observable<any> {
+		return this.http.delete<any>(`${this.baseUrl}/team/${id}`);
 	}
 }
