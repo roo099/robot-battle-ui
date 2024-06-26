@@ -60,11 +60,11 @@ export class ManageCompetitorsComponent {
 		const teamSpot = (this.getRowsFormArray(competition.name).length + 1).toString().padStart(2, '0');
 		const newId = `${competition.id}_r-1_t-${teamSpot}`;
 
-		this.competitionService.createTeam(newId, '--', 'default', roundId).subscribe(
+		this.competitionService.createTeam(newId, '-', 'default', roundId).subscribe(
 			response => {
 				console.log('Team created:', response);
 				this.getRowsFormArray(competition.name).push(
-					this.createRowFormGroup({ id: newId, teamName: '--', roomColor: 'default' })
+					this.createRowFormGroup({ id: newId, teamName: '-', roomColor: 'default' })
 				);
 			},
 			error => {

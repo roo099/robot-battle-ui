@@ -8,27 +8,31 @@ import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 })
 export class ConfimModalComponent {
 	team: any = null;
+	compId: any = null;
+	roundId: any = null;
+	teamId: any = null;
+	nextRound: any = null;
+	newPosition: any = null;
 
 	constructor(public modalRef: MdbModalRef<ConfimModalComponent>) {}
 
 	winner() {
-		const [comp_id, round_id, team_id] = this.team.id.split('_');
-		const nextRound = parseInt(round_id.split('-')[1]) + 1;
-		console.log('nextRound', nextRound);
-		console.log('team_id', team_id.split('-'));
-		const nextPosition = Math.ceil(parseInt(team_id.split('-')[1]) / 2);
-		console.log('nextPosition', nextPosition);
 		this.modalRef.close({
-			id: `${comp_id}_r-${nextRound}_t-${nextPosition}`,
+			id: `${this.compId}_r-${this.nextRound}_t-${this.newPosition.toString().padStart(2, '0')}`,
 			updates: { teamName: this.team.teamName, roomColor: this.team.roomColor },
 		});
 	}
 
 	remove() {
-		console.log('remove');
 		this.modalRef.close({
 			id: this.team.id,
 			updates: { teamName: '-', roomColor: 'default' },
 		});
+	}
+
+	ngOnInit(): void {
+		[this.compId, this.roundId, this.teamId] = this.team.id.split('_');
+		this.nextRound = parseInt(this.roundId.split('-')[1]) + 1;
+		this.newPosition = Math.ceil(parseInt(this.teamId.split('-')[1]) / 2);
 	}
 }

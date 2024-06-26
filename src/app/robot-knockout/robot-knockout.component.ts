@@ -72,7 +72,6 @@ export class RobotKnockoutComponent {
 		this.competitionService.getCompetitions().subscribe(
 			data => {
 				this.competitions = data;
-				console.log('Competitions:', this.competitions);
 			},
 			error => {
 				console.error('Error fetching competitions:', error);
