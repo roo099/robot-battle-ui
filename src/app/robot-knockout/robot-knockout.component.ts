@@ -17,6 +17,7 @@ import { ConfimModalComponent } from '../confim-modal/confim-modal.component';
 export class RobotKnockoutComponent {
 	modalRef: MdbModalRef<ConfimModalComponent> | null = null;
 	competitions: any[] = [];
+	competitionsDone: boolean = false;
 
 	constructor(
 		private route: ActivatedRoute,
@@ -72,6 +73,7 @@ export class RobotKnockoutComponent {
 		this.competitionService.getCompetitions().subscribe(
 			data => {
 				this.competitions = data;
+				this.checkCompetitionsDone();
 			},
 			error => {
 				console.error('Error fetching competitions:', error);
@@ -101,10 +103,13 @@ export class RobotKnockoutComponent {
 
 	startUpdates(): void {
 		this.isUpdating = true;
-		this.updateSubscription = interval(5000)
+		this.updateSubscription = interval(1000)
 			.pipe(switchMap(() => this.competitionService.getCompetitions()))
 			.subscribe(
-				data => (this.competitions = data),
+				data => {
+					this.checkCompetitionsDone();
+					this.competitions = data;
+				},
 				error => console.error('Error fetching competition data', error)
 			);
 	}
@@ -115,6 +120,12 @@ export class RobotKnockoutComponent {
 			this.updateSubscription = null;
 		}
 		this.isUpdating = false;
+	}
+
+	checkCompetitionsDone() {
+		this.competitionsDone = [0, 1, 2]
+			.map(i => (this.competitions[i]?.rounds[3]?.teams[0]?.teamName === '-' ? false : true))
+			.every(val => val === true);
 	}
 
 	ngOnInit(): void {

@@ -24,7 +24,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "../robot-battle-server/public",
+            "outputPath": "../robot-battle/public",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
