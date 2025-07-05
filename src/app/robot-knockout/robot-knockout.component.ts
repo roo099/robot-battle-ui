@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { CompetitionService } from '../services/competition.service';
 import { flyInDownEnterAnimation } from 'mdb-angular-ui-kit/animations';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ConfimModalComponent } from '../confim-modal/confim-modal.component';
@@ -12,7 +13,23 @@ import { ConfimModalComponent } from '../confim-modal/confim-modal.component';
 	selector: 'app-robot-knockout',
 	templateUrl: './robot-knockout.component.html',
 	styleUrl: './robot-knockout.component.scss',
-	animations: [flyInDownEnterAnimation()],
+	animations: [
+		flyInDownEnterAnimation(),
+		trigger('countdownZoom', [
+			transition(':enter', [
+				style({ transform: 'scale(2)', opacity: 0 }),
+				animate('300ms cubic-bezier(.68,-0.55,.27,1.55)', style({ transform: 'scale(1)', opacity: 1 })),
+			]),
+			transition(':increment', [
+				style({ transform: 'scale(2)', color: '#69f0ae' }),
+				animate('200ms', style({ transform: 'scale(1)', color: '#fff' })),
+			]),
+			transition(':decrement', [
+				style({ transform: 'scale(2)', color: '#69f0ae' }),
+				animate('200ms', style({ transform: 'scale(1)', color: '#fff' })),
+			]),
+		]),
+	],
 })
 export class RobotKnockoutComponent {
 	modalRef: MdbModalRef<ConfimModalComponent> | null = null;

@@ -44,7 +44,6 @@
 			Calculate the final winner...
 		</button>
 	</div>
-
 	<!-- <div>
 		<button type="button" class="btn btn-primary" mdbRipple (click)="toggleUpdates()">
 			{{ isUpdating ? 'Stop Updates' : 'Start Updates' }}
@@ -54,9 +53,8 @@
 <div *ngIf="countdownStarted" class="countdown d-flex align-items-center justify-content-center" style="height: 100%">
 	<div class="text-center my-4">
 		<div *ngIf="countdownStarted && !countdownCompleted" class="countdown-timer">
-			<h1 class="display-1">{{ countdown }}</h1>
+			<h1 class="display-1" [@countdownZoom]="countdown">{{ countdown }}</h1>
 		</div>
-
 		<div class="countdown-finished" *ngIf="countdownCompleted" [@flyInDownEnter]>
 			<img src="assets/surprised_robot.png" class="img-fluid" alt="..." />
 			<h1 class="display-1">It's not about the robots ...</h1>
