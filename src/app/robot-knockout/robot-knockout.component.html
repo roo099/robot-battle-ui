@@ -20,7 +20,7 @@
 							[ngClass]="{
 								'purple-room': team.roomColor == 'purple',
 								'orange-room': team.roomColor == 'orange',
-								'green-room': team.roomColor == 'green'
+								'green-room': team.roomColor == 'green',
 							}"
 							*ngFor="let team of round.teams; let y = index"
 							(click)="pickWinner(team)"
@@ -36,7 +36,6 @@
 		<button
 			type="button"
 			class="btn btn-primary"
-			mdbRipple
 			(click)="startCountdown()"
 			[disabled]="countdownStarted && !countdownCompleted"
 			*ngIf="competitionsDone"
@@ -45,10 +44,15 @@
 		</button>
 	</div>
 	<!-- <div>
-		<button type="button" class="btn btn-primary" mdbRipple (click)="toggleUpdates()">
+		<button type="button" class="btn btn-primary" (click)="toggleUpdates()">
 			{{ isUpdating ? 'Stop Updates' : 'Start Updates' }}
 		</button>
 	</div> -->
+</div>
+<div class="modal-backdrop" *ngIf="isWinnerModalOpen" (click)="handleModalClose(null)">
+	<div class="modal-shell" (click)="$event.stopPropagation()">
+		<app-confim-modal [team]="selectedTeam" (closed)="handleModalClose($event)"></app-confim-modal>
+	</div>
 </div>
 <div *ngIf="countdownStarted" class="countdown d-flex align-items-center justify-content-center" style="height: 100%">
 	<div class="text-center my-4">

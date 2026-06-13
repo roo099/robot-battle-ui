@@ -3,10 +3,8 @@ import { Subscription, interval } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { CompetitionService } from '../services/competition.service';
-import { flyInDownEnterAnimation } from 'mdb-angular-ui-kit/animations';
 import { trigger, transition, style, animate } from '@angular/animations';
 
-import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { ConfimModalComponent } from '../confim-modal/confim-modal.component';
 
 @Component({
@@ -14,7 +12,12 @@ import { ConfimModalComponent } from '../confim-modal/confim-modal.component';
 	templateUrl: './robot-knockout.component.html',
 	styleUrl: './robot-knockout.component.scss',
 	animations: [
-		flyInDownEnterAnimation(),
+		trigger('flyInDownEnter', [
+			transition(':enter', [
+				style({ transform: 'translateY(-40px)', opacity: 0 }),
+				animate('350ms ease-out', style({ transform: 'translateY(0)', opacity: 1 })),
+			]),
+		]),
 		trigger('countdownZoom', [
 			transition(':enter', [
 				style({ transform: 'scale(2)', opacity: 0 }),
@@ -32,14 +35,14 @@ import { ConfimModalComponent } from '../confim-modal/confim-modal.component';
 	],
 })
 export class RobotKnockoutComponent {
-	modalRef: MdbModalRef<ConfimModalComponent> | null = null;
+	selectedTeam: any | null = null;
+	isWinnerModalOpen: boolean = false;
 	competitions: any[] = [];
 	competitionsDone: boolean = false;
 
 	constructor(
 		private route: ActivatedRoute,
-		private modalService: MdbModalService,
-		private competitionService: CompetitionService
+		private competitionService: CompetitionService,
 	) {}
 
 	countdown: number = 5;
@@ -65,14 +68,16 @@ export class RobotKnockoutComponent {
 	}
 
 	pickWinner(team: any) {
-		this.modalRef = this.modalService.open(ConfimModalComponent, {
-			data: { team: team },
-		});
-		this.modalRef.onClose.subscribe((message: any) => {
-			if (message) {
-				this.updateTeam(message.id, message.updates);
-			}
-		});
+		this.selectedTeam = team;
+		this.isWinnerModalOpen = true;
+	}
+
+	handleModalClose(result: { id: string; updates: any } | null) {
+		this.isWinnerModalOpen = false;
+		this.selectedTeam = null;
+		if (result) {
+			this.updateTeam(result.id, result.updates);
+		}
 	}
 
 	updateTeam(id: string, team: any): void {
@@ -82,7 +87,7 @@ export class RobotKnockoutComponent {
 			},
 			error => {
 				console.error('Error updating team room:', error);
-			}
+			},
 		);
 	}
 
@@ -94,7 +99,7 @@ export class RobotKnockoutComponent {
 			},
 			error => {
 				console.error('Error fetching competitions:', error);
-			}
+			},
 		);
 	}
 
@@ -127,7 +132,7 @@ export class RobotKnockoutComponent {
 					this.checkCompetitionsDone();
 					this.competitions = data;
 				},
-				error => console.error('Error fetching competition data', error)
+				error => console.error('Error fetching competition data', error),
 			);
 	}
 

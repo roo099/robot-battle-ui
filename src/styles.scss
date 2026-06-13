@@ -1,21 +1,264 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@fortawesome/fontawesome-free/css/all.css';
-@import 'mdb-angular-ui-kit/assets/scss/mdb.scss';
 
-$my-theme-primary: #9c27b0; // theme primary color, change this value to customize theme
-$my-theme-secondary: #69f0ae; // theme secondary color, change this value to customize theme
+$my-theme-primary: #9c27b0;
+$my-theme-secondary: #69f0ae;
 
-$my-dark-theme: mdb-dark-theme(
-	$my-theme-primary,
-	$my-theme-secondary
-); // create the new dark theme using primary and secondary colors
+:root {
+	--bg-primary: #12161f;
+	--bg-secondary: #1b2230;
+	--bg-surface: #202a3a;
+	--border-color: #2f3a50;
+	--text-primary: #eef2ff;
+	--text-muted: #bcc8dd;
+	--primary: #9c27b0;
+	--secondary: #69f0ae;
+	--danger: #dc3545;
+	--shadow-lg: 0 12px 34px rgba(4, 8, 16, 0.45);
+}
 
-// include theme styles
-@include mdb-theme($my-dark-theme);
+* {
+	box-sizing: border-box;
+}
 
 html,
 body {
 	height: 100%;
+}
+
+body {
+	margin: 0;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	background: radial-gradient(circle at top, #1d2637 0%, #12161f 55%, #0e121a 100%);
+	color: var(--text-primary);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+	margin-top: 0;
+}
+
+.card {
+	background-color: var(--bg-surface);
+	border: 1px solid var(--border-color);
+	border-radius: 12px;
+	box-shadow: var(--shadow-lg);
+}
+
+.card-header,
+.card-body,
+.modal-header,
+.modal-body,
+.modal-footer {
+	padding: 0.9rem 1rem;
+}
+
+.card-header,
+.modal-header,
+.modal-footer {
+	border-bottom: 1px solid var(--border-color);
+}
+
+.modal-footer {
+	border-top: 1px solid var(--border-color);
+	border-bottom: 0;
+	display: flex;
+	justify-content: flex-end;
+	gap: 0.6rem;
+}
+
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.55rem 1rem;
+	border-radius: 0.55rem;
+	border: 1px solid transparent;
+	font-weight: 600;
+	cursor: pointer;
+	transition:
+		transform 0.15s ease,
+		filter 0.15s ease;
+}
+
+.btn:hover:not(:disabled) {
+	transform: translateY(-1px);
+	filter: brightness(1.05);
+}
+
+.btn:disabled {
+	opacity: 0.55;
+	cursor: not-allowed;
+}
+
+.btn-primary {
+	background-color: var(--primary);
+	border-color: var(--primary);
+	color: #fff;
+}
+
+.btn-secondary {
+	background-color: #6c757d;
+	border-color: #6c757d;
+	color: #fff;
+}
+
+.btn-danger {
+	background-color: var(--danger);
+	border-color: var(--danger);
+	color: #fff;
+}
+
+.btn-close {
+	width: 2rem;
+	height: 2rem;
+	border: 0;
+	border-radius: 50%;
+	background: transparent;
+	position: relative;
+	cursor: pointer;
+	flex-shrink: 0;
+}
+
+.btn-close::before,
+.btn-close::after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 14px;
+	height: 2px;
+	background-color: var(--text-muted);
+	transform-origin: center;
+}
+
+.btn-close::before {
+	transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.btn-close::after {
+	transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.form-group {
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+}
+
+.form-label {
+	font-size: 0.83rem;
+	font-weight: 600;
+	color: var(--text-muted);
+}
+
+.form-control {
+	min-width: 170px;
+	padding: 0.55rem 0.7rem;
+	border-radius: 0.5rem;
+	border: 1px solid #3f4a64;
+	background: #141b27;
+	color: var(--text-primary);
+	outline: none;
+	font-size: 0.95rem;
+}
+
+.form-control:focus {
+	border-color: $my-theme-secondary;
+	box-shadow: 0 0 0 2px rgba(105, 240, 174, 0.2);
+}
+
+.d-flex {
+	display: flex;
+}
+
+.align-items-start {
+	align-items: flex-start;
+}
+
+.align-items-center {
+	align-items: center;
+}
+
+.justify-content-center {
+	justify-content: center;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.h-100 {
+	height: 100%;
+}
+
+.col {
+	flex: 1 1 0;
+	min-width: 0;
+}
+
+.col-auto {
+	flex: 0 0 auto;
+}
+
+.row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+	margin: 0;
+	gap: 0.75rem;
+}
+
+.m-3 {
+	margin: 1rem;
+}
+
+.mb-3 {
+	margin-bottom: 1rem;
+}
+
+.my-4 {
+	margin-top: 1.5rem;
+	margin-bottom: 1.5rem;
+}
+
+.bg-transparent {
+	background-color: transparent;
+}
+
+.bg-body-tertiary {
+	background-color: rgba(255, 255, 255, 0.03);
+	border-radius: 14px;
+	border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.display-1 {
+	font-size: clamp(2.25rem, 8vw, 4.25rem);
+	line-height: 1.15;
+	font-weight: 700;
+}
+
+.img-fluid {
+	max-width: 100%;
+	height: auto;
+}
+
+@media (max-width: 1024px) {
+	.battle-board {
+		flex-direction: column;
+	}
+}
+
+@media (max-width: 700px) {
+	.col-auto,
+	.form-control {
+		width: 100%;
+	}
 }
 
 app-robot-knockout {

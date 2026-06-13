@@ -9,33 +9,33 @@
 						[formGroupName]="i"
 					>
 						<div class="row gy-2 gx-3 mb-3 align-items-center">
-							<div class="col-auto">
-								<mdb-form-control>
-									<input
-										mdbInput
-										type="text"
-										id="{{ competition.name }}-teamName-{{ i }}"
-										class="form-control"
-										formControlName="teamName"
-									/>
-									<label mdbLabel class="form-label" for="{{ competition.name }}-teamName-{{ i }}"
-										>Team Name</label
-									>
-								</mdb-form-control>
+							<div class="col-auto form-group">
+								<label class="form-label" for="{{ competition.name }}-teamName-{{ i }}"
+									>Team Name</label
+								>
+								<input
+									type="text"
+									id="{{ competition.name }}-teamName-{{ i }}"
+									class="form-control"
+									formControlName="teamName"
+								/>
 							</div>
-							<div class="col-auto">
-								<mdb-form-control>
-									<mdb-select formControlName="roomColor">
-										<mdb-option
-											*ngFor="let color of ['default', 'purple', 'green', 'orange']"
-											[value]="color"
-											>{{ color | titlecase }}</mdb-option
-										>
-									</mdb-select>
-									<label mdbLabel class="form-label" for="{{ competition.name }}-roomColor-{{ i }}"
-										>Room Color</label
+							<div class="col-auto form-group">
+								<label class="form-label" for="{{ competition.name }}-roomColor-{{ i }}"
+									>Room Color</label
+								>
+								<select
+									id="{{ competition.name }}-roomColor-{{ i }}"
+									class="form-control"
+									formControlName="roomColor"
+								>
+									<option
+										*ngFor="let color of ['default', 'purple', 'green', 'orange']"
+										[value]="color"
 									>
-								</mdb-form-control>
+										{{ color | titlecase }}
+									</option>
+								</select>
 							</div>
 						</div>
 					</div>
