@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { of } from 'rxjs';
 
 import { ManageCompetitorsComponent } from './manage-competitors.component';
+import { CompetitionService } from '../services/competition.service';
 
 describe('ManageCompetitorsComponent', () => {
   let component: ManageCompetitorsComponent;
@@ -8,7 +12,20 @@ describe('ManageCompetitorsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ManageCompetitorsComponent]
+      imports: [ReactiveFormsModule],
+      declarations: [ManageCompetitorsComponent],
+      providers: [
+        {
+          provide: CompetitionService,
+          useValue: {
+            getCompetitions: () => of([]),
+            updateTeams: () => of({}),
+            createTeam: () => of({}),
+            deleteTeam: () => of({}),
+          },
+        },
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
     })
     .compileComponents();
     
